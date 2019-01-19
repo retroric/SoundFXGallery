@@ -171,6 +171,7 @@ void main() {
 	//test_keys();
     cls(); paper(4); ink(2);
     hide_cursor();
+    disable_keyboard_sound();
     display_title_screen();
 
     printf("----- STAGE 1: press SPACE -----\n");
@@ -216,6 +217,7 @@ void main() {
 
 	// End: show the cursor and quit
     show_cursor();
+    enable_keyboard_sound();
 }
 
 
