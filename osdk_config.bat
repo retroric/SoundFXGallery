@@ -5,5 +5,5 @@
 ::
 SET OSDKADDR=$800
 SET OSDKNAME=SOUNDFXG
-SET OSDKFILE=main effects
+SET OSDKFILE=main effects sysutils
 

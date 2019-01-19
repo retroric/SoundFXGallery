@@ -23,22 +23,8 @@
 #include <stdio.h>
 #include <sys/graphics.h>
 
-
-/* ================== TYPES ================== */
-typedef unsigned char uchar;
-typedef unsigned char bool; // boolean
-
-
-/* ================== CONSTANTES ================== */
-
-#ifndef NULL
-#define NULL ((void *) 0)
-#endif
-
-#ifndef FALSE
-#define FALSE ((bool) 0)
-#define TRUE  (!FALSE)
-#endif
+#include "types.h"
+#include "sysutils.h"
 
 // Adresse de début de l'écran TEXT
 #define TEXT_SCREEN 0xBB80
@@ -59,8 +45,6 @@ typedef unsigned char bool; // boolean
 void  display_title_screen();
 void  wait_spacekey();
 void  test_keys();
-void  hide_cursor();
-void  show_cursor();
 void  play_soundfx(const char *psg_data);
 
 /* ================== DECLARATION DES FONCTIONS ASSEMBLEUR (PROTOTYPES) ================== */
@@ -131,7 +115,7 @@ extern const char *fx_data_vector_table[];
 void play_soundfx(const char *psg_data) {
     // NB: utilisation de "STATIC" pour éviter que les variables locales hh et ll
     // ne soient créées sur la pile, car cela interdiarait leur référencement dans
-    // l'inline asm (les vairables locales "auto"  étant créées sur la pile,
+    // l'inline asm (les variables locales "auto"  étant créées sur la pile,
     // cela conduirait à une traduction en ASM avec un adressage du type "ldx #(fp),6",
     // qui n'est pas un adressage légal en 6502 car le framepointer "fp" n'est pas en page zéro... )
     // NB: ne fonctionne toujours pas avec "static" ça se traduit par:
@@ -294,22 +278,4 @@ void test_keys() {
             }
         }
     }  
-}
-
-/**
- * hide_cursor(): cache le curseur 
- */ 
-void hide_cursor() {
-	// Hide the cursor: clear bit 0 @ 0x26A
-	uchar *addr = (uchar *) 0x26A;
-	*addr &= 0xFE;
-}
-
-/**
- * hide_cursor(): montre le curseur 
- */ 
-void show_cursor() {
-	// End game: show cursor: set bit 0 @ 0x26A
-	uchar *addr = (uchar *) 0x26A;
-	*addr |= 1;
 }
