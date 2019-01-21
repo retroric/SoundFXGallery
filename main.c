@@ -150,12 +150,13 @@ void play_soundfx(const char *psg_data) {
     */
     
     // OPTION 2: used to yeild another error, but now ok ??!!
-    asm(    "pha; txa; pha; tya; pha;" // push registers (car la routine modifie A, X et Y)
+    asm(    "php; pha; txa; pha; tya; pha;" // push registers (car la routine modifie A, X et Y)
+                                            // et il est préférable de sauver P également
             //"ldx #<%psg_data; ldy #>%psg_data; "
             //"ldx #$f7; ldy #$13;" // sound data addr for metalcrush
             "ldx #%ll; ldy #%hh;" // finalement... c'est tombé en marche, avec variables locales ??!!
             "jsr $FA86;" //"jsr _play_soundfx_entrypoint;"
-            "pla; tay; pla; tax; pla; " // pop saved registers
+            "pla; tay; pla; tax; pla; plp;" // pop saved registers
 
         );
     /*
